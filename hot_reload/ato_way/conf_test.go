@@ -1,4 +1,4 @@
-package confs
+package ato_way
 
 import "testing"
 
