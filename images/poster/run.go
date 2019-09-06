@@ -3,6 +3,7 @@ package q2
 import (
 	"bytes"
 	"flag"
+	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
@@ -277,13 +278,19 @@ func (c *circle) At(x, y int) color.Color {
 // 在base上画img的原型图像
 func cropCircle(base, img image.Image, p image.Point, r int) image.Image {
 	// 坐标起点，进行覆盖
-	x := ((base.Bounds().Dx()) / 40) - 50
-	y := (base.Bounds().Dy())/40 - 60
+	bx := base.Bounds().Dx()
+	by := base.Bounds().Dy()
+	log.Println(bx, by)
+	x := (base.Bounds().Dx()) / 30
+	y := (base.Bounds().Dy()) / 40
 	offset := image.Pt(x, y)
-
+	fmt.Println(offset)
+	// 底图
 	ib := base.Bounds()
 	in := image.NewRGBA(ib)
 	draw.Draw(in, ib, base, image.ZP, draw.Src)
+
+	// 在底图上画图
 	draw.DrawMask(in, base.Bounds().Add(offset), img, image.ZP, &circle{p, r}, image.ZP, draw.Over)
 	return in
 }

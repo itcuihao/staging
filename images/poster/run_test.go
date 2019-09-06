@@ -94,11 +94,26 @@ func TestThumb(t *testing.T) {
 }
 
 func TestCircleThumb(t *testing.T) {
+	// 等待画圆的图
 	img, _ := openImage("4.jpg")
-	thumb := thumbnail(img, 0, 0, 100)
+	// 等待画圆的缩略图
+	thumb := thumbnail(img, 120, 120, 100)
+	thx := thumb.Bounds().Dx()
+	thy := thumb.Bounds().Dy()
+	// 要画的圆的半径
+	var r int
+	if thx > thy {
+		r = thy / 2
+	} else {
+		r = thx / 2
+	}
+	// 要画的圆心的坐标
+	point := image.Point{thx / 2, thy / 2}
 	outFile("6t.jpg", thumb)
 	fmt.Println(thumb.Bounds().Dx(), thumb.Bounds().Dy())
+	// 在base上画图
 	base, _ := openImage("1.jpg")
-	ccImg := cropCircle(base, thumb, image.Point{200, 200}, 50)
+
+	ccImg := cropCircle(base, thumb, point, r)
 	outFile("6.jpg", ccImg)
 }
