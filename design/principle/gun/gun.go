@@ -70,13 +70,13 @@ func (a Aug) ZoomOut() {
 }
 
 // 步枪接口
-type IRifle interface{
+type IRifle interface {
 	IGun
 	ZoomOut()
 }
 
 // 狙击手
-type Snipper struct{
+type Snipper struct {
 	gun IRifle
 }
 
@@ -87,5 +87,10 @@ func (s *Snipper) SetRifle(gun IRifle) {
 func (s Snipper) KillEnemy() {
 	fmt.Println("kill enemy...")
 	s.gun.ZoomOut()
+	// 这里可以使用 IGun 的 shoot 方法
 	s.gun.Shoot()
+}
+
+type ToyGun struct {
+
 }

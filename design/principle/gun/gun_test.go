@@ -21,7 +21,10 @@ func TestSoldier(t *testing.T) {
 func TestSnipper(t *testing.T) {
 	snipper := new(Snipper)
 
-	aug := new(Aug)
-	snipper.SetRifle(aug)
+	// aug := new(Aug)
+	// snipper.SetRifle(aug)
+
+	rifle:=new(Rifle)
+	snipper.SetRifle(rifle)
 	snipper.KillEnemy()
 }
