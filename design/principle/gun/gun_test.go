@@ -21,10 +21,12 @@ func TestSoldier(t *testing.T) {
 func TestSnipper(t *testing.T) {
 	snipper := new(Snipper)
 
-	// aug := new(Aug)
-	// snipper.SetRifle(aug)
-
-	rifle:=new(Rifle)
-	snipper.SetRifle(rifle)
+	aug := new(Aug)
+	snipper.SetRifle(aug)
 	snipper.KillEnemy()
+
+	// rifle 未实现 zoomout 方法
+	// rifle := new(Rifle)
+	// snipper.SetRifle(rifle)
+	// snipper.KillEnemy()
 }
