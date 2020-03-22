@@ -8,6 +8,7 @@
 ### 控制台
 
 **code:**
+
 ```text
 func TestExplain(t *testing.T) {
     // 初始化db
@@ -26,14 +27,12 @@ func TestExplain(t *testing.T) {
 
 **结果:**
 
-<p align='center'>
-    <img src='./static/images/explain_console.png'>
-</p>
-
+![web](../static/images/explain_console.png)
 
 ### CSV
 
 **code:**
+
 ```text
 func TestExplain(t *testing.T) {
     // 初始化db
@@ -91,4 +90,4 @@ func TestExplain(t *testing.T) {
 
 ## License
 
-Licensed under the MIT license.
+Licensed under the [MIT](https://github.com/itcuihao/staging/blob/master/LICENSE) license.
