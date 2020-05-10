@@ -6,8 +6,9 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/itcuihao/staging/s1/common"
+
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
@@ -32,8 +33,8 @@ func NewDao(dbConf *common.MysqlConfig) *Dao {
 	return newDB
 }
 
-func (db *Dao) New() *Dao {
-	return &Dao{db: db.db.New()}
+func (dao *Dao) New() *Dao {
+	return &Dao{db: dao.db.New()}
 }
 
 func InitDebug() *Dao {
@@ -66,23 +67,23 @@ func InitExplain() *Dao {
 	return db
 }
 
-func (db *Dao) NewDB() *gorm.DB {
-	return db.db.New()
+func (dao *Dao) NewDB() *gorm.DB {
+	return dao.db.New()
 }
 
-func (db *Dao) BeginTx() *Dao {
-	return &Dao{db: db.db.Begin()}
+func (dao *Dao) BeginTx() *Dao {
+	return &Dao{db: dao.db.Begin()}
 }
 
-func (db *Dao) CommitTx() error {
-	if db.rollback {
-		return db.db.Rollback().Error
+func (dao *Dao) CommitTx() error {
+	if dao.rollback {
+		return dao.db.Rollback().Error
 	}
-	return db.db.Commit().Error
+	return dao.db.Commit().Error
 }
 
-func (db *Dao) Rollback() {
-	db.rollback = true
+func (dao *Dao) Rollback() {
+	dao.rollback = true
 }
 
 var sqlog *sqlLogger

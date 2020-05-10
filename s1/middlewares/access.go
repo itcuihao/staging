@@ -2,10 +2,11 @@ package middlewares
 
 import (
 	"bytes"
-	"github.com/itcuihao/staging/s1/common"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/itcuihao/staging/s1/common"
 
 	"github.com/gin-gonic/gin"
 )

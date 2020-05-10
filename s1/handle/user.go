@@ -1,11 +1,13 @@
 package handle
 
 import (
-	"github.com/gin-gonic/gin"
+	"time"
+
 	"github.com/itcuihao/staging/s1/common"
 	"github.com/itcuihao/staging/s1/dao"
 	"github.com/itcuihao/staging/s1/middlewares"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type UserHandle struct {
@@ -51,9 +53,9 @@ func (h *UserHandle) Login(c *gin.Context) {
 		h.ServerBusy(c, "get account error")
 		return
 	}
-	userRole := "admin"
-	if time.Unix(user.TokenExpireAt, 0).Before(time.Now()) {
-		token, tokenExpire := middlewares.GenToken(user.Id, user.Account, userRole)
+	userRole := reqLogin.Role
+	token, tokenExpire := middlewares.GenToken(user.Id, user.Account, userRole)
+	if time.Unix(user.TokenExpireAt, 0).Before(time.Now()) || token != user.AccessToken {
 		if err := h.DB.UpdateUserToken(user.Id, token, tokenExpire); err != nil {
 			h.ServerBusy(c, "update token error")
 			return

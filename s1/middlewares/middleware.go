@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"fmt"
+
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )

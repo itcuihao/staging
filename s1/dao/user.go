@@ -2,9 +2,9 @@ package dao
 
 import "github.com/itcuihao/staging/s1/models"
 
-func (db *Dao) GetUserById(id string) (*models.User, error) {
+func (dao *Dao) GetUserById(id string) (*models.User, error) {
 	user := &models.User{}
-	if err := db.db.Where("id=?", id).FirstOrInit(user).Error; err != nil {
+	if err := dao.db.Where("id=?", id).FirstOrInit(user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
@@ -28,9 +28,9 @@ func (dao *Dao) UpdateUserToken(id int, token string, expireAt int64) error {
 	}).Error
 }
 
-func (db *Dao) GetUserRoleIds(id int) ([]int, error) {
+func (dao *Dao) GetUserRoleIds(id int) ([]int, error) {
 	roleIds := make([]int, 0)
-	if err := db.db.Where("user_id=?", id).Pluck("role_id", &roleIds).Error; err != nil {
+	if err := dao.db.Model(models.UserRole{}).Where("user_id=?", id).Pluck("role_id", &roleIds).Error; err != nil {
 		return nil, err
 	}
 	return roleIds, nil

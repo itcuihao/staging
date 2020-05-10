@@ -2,9 +2,11 @@ package middlewares
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/itcuihao/staging/s1/common"
 	"net/http"
+
+	"github.com/itcuihao/staging/s1/common"
+
+	"github.com/gin-gonic/gin"
 )
 
 // CasbinMiddleware casbin中间件
@@ -25,15 +27,16 @@ func (m Middleware) CasbinMiddleware(c *gin.Context) {
 	// 用户
 	sub := c.GetString(AuthKeyUserRole)
 	fmt.Println(sub, act, obj)
-	if b, err := m.CasbinRule.Enforce(sub, obj, act); err != nil {
+	pass, err := m.CasbinRule.Enforce(sub, obj, act)
+	fmt.Println(pass)
+	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"code":  common.ErrCodePermissionDenied,
 			"error": "没有权限访问",
 		})
 		c.Abort()
 		return
-	} else if !b {
-		fmt.Println(b)
+	} else if !pass {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"code":  common.ErrCodePermissionDenied,
 			"error": "没有权限访问",

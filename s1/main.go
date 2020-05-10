@@ -24,6 +24,7 @@ var (
 	db       *dao.Dao
 
 	userHandle *handle.UserHandle
+	roleHandle *handle.RoleHandle
 )
 
 func main() {
@@ -33,7 +34,7 @@ func main() {
 	}
 	db = dao.NewDao(common.GetMysqlCfg())
 
-	tool.NewCasbinRule(db)
+	tool.NewCasbinRule(db, "config/rbac_model.conf")
 
 	r := gin.New()
 
@@ -83,6 +84,7 @@ func init() {
 
 func newHandle(db *dao.Dao) {
 	userHandle = handle.NewUserHandle(db)
+	roleHandle = handle.NewRoleHandle(db)
 }
 
 func newRouterV1(r *gin.Engine) {
@@ -102,6 +104,10 @@ func newRouterV1(r *gin.Engine) {
 		user := v1.Group("user")
 		{
 			user.GET(":id", userHandle.GetUser)
+		}
+		role := v1.Group("role")
+		{
+			role.GET("", roleHandle.GetRole)
 		}
 	}
 }
