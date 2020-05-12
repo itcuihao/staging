@@ -1,8 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
-
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )
@@ -20,17 +18,13 @@ func AllowPathPrefixSkipper(prefixes ...string) SkipperFunc {
 	return func(c *gin.Context) bool {
 		path := c.Request.URL.Path
 		pathLen := len(path)
-		fmt.Println(path)
-		fmt.Println(pathLen)
+
 		if pathLen > 0 {
 			// 使/api/v1/为api/v1
 			path = path[1:]
 			pathLen = len(path)
-			fmt.Println(path)
-			fmt.Println(pathLen)
 		}
 		for _, p := range prefixes {
-			fmt.Println(p, " ", path)
 			if pl := len(p); pathLen >= pl && path[:pl] == p {
 				return true
 			}
@@ -42,17 +36,9 @@ func AllowPathPrefixSkipper(prefixes ...string) SkipperFunc {
 // SkipHandler 统一处理跳过函数
 func SkipHandler(c *gin.Context, skippers ...SkipperFunc) bool {
 	for _, skipper := range skippers {
-		fmt.Println(skipper)
 		if skipper(c) {
 			return true
 		}
 	}
-	fmt.Println(len(skippers))
 	return false
-}
-
-func EmptyMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Next()
-	}
 }
