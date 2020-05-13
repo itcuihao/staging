@@ -9,3 +9,11 @@ func (dao *Dao) GetRoleByIds(ids ...int) ([]*models.Role, error) {
 	}
 	return roles, nil
 }
+
+func (dao *Dao) GetRoleByTitle(title string) (*models.Role, error) {
+	role := &models.Role{}
+	if err := dao.db.Where("title=?", title).FirstOrInit(role).Error; err != nil {
+		return nil, err
+	}
+	return role, nil
+}

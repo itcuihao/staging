@@ -35,3 +35,11 @@ func (dao *Dao) GetUserRoleIds(id int) ([]int, error) {
 	}
 	return roleIds, nil
 }
+
+func (dao *Dao) ExistUserRole(userId, roleId int) (bool, error) {
+	var count int
+	if err := dao.db.Model(models.UserRole{}).Where("user_id=? AND role_id=?", userId, roleId).Count(&count).Error; err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}

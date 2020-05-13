@@ -54,6 +54,20 @@ func (h *UserHandle) Login(c *gin.Context) {
 		return
 	}
 	userRole := reqLogin.Role
+	role, err := h.DB.GetRoleByTitle(userRole)
+	if err != nil {
+		h.ServerBusy(c, "get role error")
+		return
+	}
+	existUserRole, err := h.DB.ExistUserRole(user.Id, role.Id)
+	if err != nil {
+		h.ServerBusy(c, "get role error")
+		return
+	}
+	if !existUserRole {
+		h.ClientBadParam(c, "请联系管理员添加角色")
+		return
+	}
 	token, tokenExpire := middlewares.GenToken(user.Id, user.Account, userRole)
 	if time.Unix(user.TokenExpireAt, 0).Before(time.Now()) || token != user.AccessToken {
 		if err := h.DB.UpdateUserToken(user.Id, token, tokenExpire); err != nil {
